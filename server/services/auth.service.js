@@ -49,8 +49,11 @@ const signInWithEmailAndPassword = async(email,password) =>{
     }
 }
 
+
+
 module.exports = {
     createUser,
     genAuthToken,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+   
 }

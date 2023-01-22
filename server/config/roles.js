@@ -11,7 +11,8 @@ const allRights = {
 let grantsObject = {
     admin:{
        // test:allRights
-        profile: allRights
+        profile: allRights,
+        articles: allRights
     },
     user:{
         // test:{
@@ -19,7 +20,10 @@ let grantsObject = {
         // }
           profile:{
             'read:own':['*','!password','!_id'],
-            'update:own':['*']
+            'update:own':['*','!password','!_id']
+        },
+         articles:{
+            'read:any':['*'],
         }
     }
 }
