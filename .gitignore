@@ -9,9 +9,9 @@
 
 # testing
 /coverage
-
+/client/
 # production
-/build
+/build/styles
 
 # misc
 # .DS_Store

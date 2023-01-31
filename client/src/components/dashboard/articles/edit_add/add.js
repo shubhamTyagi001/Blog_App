@@ -6,9 +6,11 @@ import { useNavigate } from 'react-router-dom'
 import { AdminTitle } from '../../../../utils/tools';
 import { errorHelper, Loader } from '../../../../utils/tools'
 import { validation, formValues } from './validationSchema'
+import WYSIWYG from '../../../../utils/form/wysiwyg';
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-
+import { addArticle } from '../../../../store/actions/articles';
 // MUI
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button' 
@@ -28,19 +30,35 @@ import { visuallyHidden } from '@mui/utils';
 
 
 const AddArticle = () => {
+    const [editorBlur,setEditorBlur] = useState(false);
     // redux
     const articles = useSelector(state=>state.articles);
     const dispatch = useDispatch();
     const actorsValue = useRef('');
+    let navigate = useNavigate()
 
     const formik = useFormik({
         enableReinitialize:true,
         initialValues: formValues,
         validationSchema:validation,
         onSubmit:(values)=>{
-            console.log(values)
+            //console.log(values)
+            dispatch(addArticle(values))
+            .unwrap()
+            .then(()=>{
+                navigate('/dashboard/articles')
+            })
         }
     })
+    
+    const handleEditorState = (state) => {
+        formik.setFieldValue('content',state,true)
+    }
+
+    const handleEditorBlur = (blur) => {
+        setEditorBlur(true)
+    }
+
 
 
 
@@ -61,7 +79,18 @@ const AddArticle = () => {
                 </div>
 
                 <div className='form-group'>
-                    WYSIWYG
+                      <WYSIWYG
+                        setEditorState={(state)=>handleEditorState(state)}
+                        setEditorBlur={(blur)=> handleEditorBlur(blur)}
+                        onError={formik.errors.content}
+                        editorBlur={editorBlur}
+                    />
+                     { formik.errors.content || (formik.errors.content && editorBlur) ?
+                        <FormHelperText error={true}>
+                            {formik.errors.content}
+                        </FormHelperText>
+                        :null
+                    }
                 </div>
 
                 <div className='form-group'>
@@ -172,7 +201,10 @@ const AddArticle = () => {
                 </FormControl>
 
                 <Divider className='mt-3 mb-3'/>
-
+                
+                 { articles.loading ?
+                    <Loader/>
+                :
                 <Button
                     variant='contained'
                     color="primary"
@@ -180,7 +212,7 @@ const AddArticle = () => {
                 >
                     Add article
                 </Button>
-
+                 }
 
             </form>
 
