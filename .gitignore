@@ -9,7 +9,7 @@
 
 # testing
 /coverage
-/client/src/styles
+
 # production
 /build/styles
 

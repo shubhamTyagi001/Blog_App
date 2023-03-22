@@ -3,6 +3,7 @@ import { Routes,Route ,BrowserRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAuth } from './store/actions/users';
 import { Loader } from './utils/tools';
+import Article from './components/articles/article';
 
 import MainLayout from './hoc/mainLayout';
 import Header from './components/navigation/header';
@@ -15,7 +16,7 @@ import AdminProfile from './components/dashboard/profile';
 import DashboardMain from './components/dashboard/main';
 import AddArticle from './components/dashboard/articles/edit_add/add';
 import EditArticle from './components/dashboard/articles/edit_add/edit';
-
+import AccountVerify from './components/auth/verification';
 
 const Router = () => {
    const [loading,setLoading] = useState(true);
@@ -53,6 +54,8 @@ const Router = () => {
            <Route path='articles/add' element={<AddArticle/>}/>
            <Route path='articles/edit/:articleId' element={<EditArticle/>}/>
         </Route>
+        <Route path='/verification' element={<AccountVerify/>}/>
+        <Route path='/articles/article/:id' element={<Article/>}/>
         <Route path='/auth' element={<Auth/>}/>
         <Route path='/' element={<Home/>}/>
       </Routes>

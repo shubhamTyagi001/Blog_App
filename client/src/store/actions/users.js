@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { errorGlobal, successGlobal } from '../reducers/notifications'
 import { getAuthHeader, removeTokenCookie } from '../../utils/tools'
+import { setVerify } from '../reducers/users';
 import axios from 'axios'
 
 export const registerUser = createAsyncThunk(
@@ -92,4 +93,24 @@ export const changeEmail = createAsyncThunk(
            throw error; 
         }
     }
+)
+
+export const accountVerify = createAsyncThunk(
+    'users/accountVerify',
+    async(token,{dispatch,getState})=>{
+        try{
+            const user = getState().users.auth;
+            await axios.get(`/api/users/verify?validation=${token}`);
+
+            if(user){
+                dispatch(setVerify())
+            }
+
+            dispatch(successGlobal('Account verified !!'))
+        } catch(error){
+            dispatch(errorGlobal(error.response.data.message))
+            throw error; 
+        }
+    }
+
 )

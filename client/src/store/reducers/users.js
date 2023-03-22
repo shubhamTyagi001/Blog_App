@@ -26,7 +26,9 @@ export const usersSlice = createSlice({
     name:'users',
     initialState:DEFAULT_USER_STATE,
     reducers:{
-
+      setVerify:(state)=>{
+            state.data.verified = true;
+        }
     },
      extraReducers:(builder)=>{
         builder
@@ -74,3 +76,4 @@ export const usersSlice = createSlice({
 })
 
 export default usersSlice.reducer
+export const { setVerify } =  usersSlice.actions;
